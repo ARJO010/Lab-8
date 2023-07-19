@@ -29,11 +29,13 @@ def get_married_couples():
     con = sqlite3.connect(db_path)
     cur = con.cursor()
     all_relationships_query = """
-    SELECT person1.name, person2.name, start_date, type FROM relationships
-    JOIN people person1 ON person1_id = person1.id
-    JOIN people person2 ON person2_id = person2.id;
+        SELECT person1.name, person2.name, start_date FROM relationships
+        JOIN people person1 ON person1_id = person1.id
+        JOIN people person2 ON person2_id = person2.id
+        WHERE type = 'spouse';
     """
     cur.execute(all_relationships_query)
+
     married_couples = cur.fetchall()
     con.close()
     # Hint: See example code in lab instructions entitled "Get a List of Relationships"
@@ -48,8 +50,8 @@ def save_married_couples_csv(married_couples, csv_path):
         csv_path (str): Path of CSV file
     """
     # TODO: Function body
-    couples_df = pd.DataFrame(married_couples, columns=['Person 1' , 'Person 2' , 'Wedding Anniversary'])
-    couples_df.to_csv(csv_path, index=False)
+    married_couples_df = pd.DataFrame(married_couples, columns=['Person 1' , 'Person 2', 'Anniversary'])
+    married_couples_df.to_csv(csv_path, index=False)
     # Hint: We did this in Lab 7.
     return
 

@@ -11,6 +11,7 @@ import sqlite3
 from random import randint, choice
 from faker import Faker
 
+# Determine the path of the database
 script_dir = os.path.dirname(os.path.abspath(__file__))
 db_path = os.path.join(script_dir, 'social_network.db')
 
@@ -21,12 +22,12 @@ def main():
 def create_relationships_table():
     """Creates the relationships table in the DB"""
     # TODO: Function body
-    con = sqlite3.connect('social_network.db')
+    con = sqlite3.connect(db_path)
     cur = con.cursor()
     create_relationships_tbl_query = """
         CREATE TABLE IF NOT EXISTS relationships
         (
-            id         INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY,
             person1_id INTEGER NOT NULL,
             person2_id INTEGER NOT NULL,
             type TEXT NOT NULL,
@@ -44,7 +45,7 @@ def create_relationships_table():
 def populate_relationships_table():
     """Adds 100 random relationships to the DB"""
     # TODO: Function body
-    con = sqlite3.connect('social_network.db')
+    con = sqlite3.connect(db_path)
     cur = con.cursor()
     add_relationship_query = """
         INSERT INTO relationships
@@ -67,8 +68,8 @@ def populate_relationships_table():
         rel_type = choice(('friend', 'spouse', 'partner', 'relative'))
         start_date = fake.date_between(start_date='-50y', end_date='today')
         new_relationship = (person1_id, person2_id, rel_type, start_date)
-    cur.execute(add_relationship_query, new_relationship)
-    con.commit()
+        cur.execute(add_relationship_query, new_relationship)
+        con.commit()
     con.close()
     # Hint: See example code in lab instructions entitled "Populate the Relationships Table"
     return 
