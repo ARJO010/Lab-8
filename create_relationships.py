@@ -1,4 +1,5 @@
 """
+Group memeber:Nadirsha
 Description:
  Creates the relationships table in the Social Network database
  and populates it with 100 fake relationships.
